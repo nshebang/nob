@@ -11,6 +11,14 @@ using Linux)
 
 Finally, just run `nob` from your terminal and that's it!
 
+## Features
+* Neocities-oriented
+* Cross-platform
+* Simple templating system
+* You can write your posts in Markdown
+* Support for RSS
+* No theming system. You just use any CSS stylesheet you like and works.
+
 ## How to use nob
 The [wiki](https://github.com/nanavortex/nob/wiki) has more information
 about this. Alternatively, run `nob help --more` from your terminal.
@@ -18,5 +26,5 @@ about this. Alternatively, run `nob help --more` from your terminal.
 ## To do
 * Refactor some portions of the code
 * Auto delete HTML file if missing draft?
-* GitHub actions (I don't understand it works yet)
+* GitHub actions (I don't understand how it works yet)
 
