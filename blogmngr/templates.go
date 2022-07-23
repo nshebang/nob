@@ -26,7 +26,7 @@ const indexTemplate = `<!doctype html>
   <hr>
   <small>- <a href="rss.xml">RSS</a> -</small>
 </body>
-</html
+</html>
 `
 
 const postTemplate = `<!doctype html>
@@ -35,6 +35,7 @@ const postTemplate = `<!doctype html>
   <meta charset="utf-8">
   <title>{{.title}}</title>
 </head>
+<body>
   <h1>{{.title}}</h1>
   <hr>
   <p>
@@ -43,6 +44,7 @@ const postTemplate = `<!doctype html>
   {{.content}}
   <hr>
   <small>- <a href="index.html">home</a> -</small>
+</body>
 </html>
 `
 
