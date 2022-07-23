@@ -1,6 +1,6 @@
 # nob for Neocities 🐱
 nob is a neocities-oriented blog manager and static site generator. It is
-really easy to use and fast. It is intended to be used along with
+really easy to use and fast. It is intended to be used together with
 [Neocities CLI](https://neocities.org/cli).
 
 ## Installation
