@@ -8,7 +8,7 @@ import (
 
 var cmdBuild = &Command{
 	Run: runBuild,
-	Usage: "build",
+	Usage: "build [--autodelete | -d]",
 	Desc: "Apply changes to your blog static files",
 }
 
@@ -22,10 +22,20 @@ func runBuild(params *[]string) int {
 		return 1
 	}
 
+	autodelete := false
+	if len(*params) > 0 {
+		if (*params)[0] == "--autodelete" || (*params)[0] == "-d" {
+			autodelete = true
+		}
+	}
+
 	fmt.Println("Building public HTML files + RSS feed")
+	if autodelete {
+		fmt.Println("Entries without a draft will be deleted!")
+	}
 	start := time.Now().UnixNano() / int64(time.Millisecond)
 
-	blogmngr.BuildStatic()
+	blogmngr.BuildStatic(autodelete)
 
 	end := time.Now().UnixNano() / int64(time.Millisecond)
 	fmt.Printf("Done! (%d ms)\n", end - start)

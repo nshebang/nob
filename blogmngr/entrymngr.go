@@ -42,12 +42,39 @@ func CreateDraftAndEdit(title string) bool {
 	return true
 }
 
-func BuildStatic() {
+func BuildStatic(autodelete bool) {
 	var entriesUnsorted = make(map[int64]Entry)
 	loadEntries(entriesUnsorted)
 	entries := make([]Entry, 0)
 	sortEntries(entriesUnsorted, &entries)
 	overwriteStaticFiles(&entries)
+
+	if autodelete {
+		autoDelete(&entries)
+	}
+}
+
+func autoDelete(entries *[]Entry) {
+	var entriesHTML = make([]string, 0)
+	var titles = make([]string, 0)
+	loadHTMLEntries(&entriesHTML)
+	
+	for _, entry := range (*entries) {
+		t := fmt.Sprintf("%s.html", toFilename(entry.title))
+		titles = append(titles, t)
+	}
+	
+	for _, fname := range entriesHTML {
+		exists := false
+		for _, t := range titles {
+			if t == fname {
+				exists = true
+			}
+		}
+		if !exists {
+			os.Remove(fname)
+		}
+	}
 }
 
 func toFilename(str string) string {
@@ -74,6 +101,18 @@ func loadEntries(emap map[int64]Entry) {
 			entry.dateRfc2822)
 		timestamp := time.Unix()
 		emap[timestamp] = (*entry)
+	}
+}
+
+func loadHTMLEntries(entries *[]string) {
+	flist, _ := ioutil.ReadDir(".")
+	
+	for _, file := range flist {
+		fname := file.Name()
+		if filepath.Ext(fname) != ".html" || fname == "index.html" {
+			continue
+		}
+		(*entries) = append((*entries), fname)
 	}
 }
 
