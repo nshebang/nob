@@ -25,6 +25,5 @@ about this. Alternatively, run `nob help --more` from your terminal.
 
 ## To do
 * Refactor some portions of the code
-* Auto delete HTML file if missing draft?
 * GitHub actions (I don't understand how it works yet)
 
