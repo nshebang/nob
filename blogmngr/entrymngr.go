@@ -67,8 +67,10 @@ func autoDelete(entries *[]Entry) {
 	loadHTMLEntries(&entriesHTML)
 	
 	for _, entry := range (*entries) {
-		t := fmt.Sprintf("%s.html", toFilename(entry.title))
-		titles = append(titles, t)
+		fnameWithExt := filepath.Base(entry.path)
+		fname := strings.TrimSuffix(fnameWithExt, filepath.Ext(fnameWithExt))
+		title := fmt.Sprintf("%s.html", fname)
+		titles = append(titles, title)
 	}
 	
 	for _, fname := range entriesHTML {
@@ -104,7 +106,7 @@ func loadEntries(entries map[int64]Entry) {
 		}
 		entryFile := fmt.Sprintf(".nob/entries/%s", file.Name())
 		entry := NewEntryFromFile(entryFile)
-		
+
 		if entry.Draft() {
 			continue
 		}
@@ -152,15 +154,18 @@ func overwriteStaticFiles(entries *[]Entry) {
 	var currentHTML string
 
 	for _, entry := range (*entries) {
-		file := fmt.Sprintf("%s.html", toFilename(entry.title))
+		fnameWithExt := filepath.Base(entry.path)
+		fname := strings.TrimSuffix(fnameWithExt, filepath.Ext(fnameWithExt))
+		entryPath := fmt.Sprintf("%s.html", fname)
+		
 		ehtml := entry.ToHTML()
 
-		entriesHTML += fmt.Sprintf(EntryLi, file, entry.title, entry.date)	
+		entriesHTML += fmt.Sprintf(EntryLi, entryPath, entry.title, entry.date)	
 		entriesHTML += "    "
 
 		entriesXML += FmtTemplate(RssArticle, P{
 			"title": entry.title,
-			"link": fmt.Sprintf("%s/%s", GetWebsiteURL(), file),
+			"link": fmt.Sprintf("%s/%s", GetWebsiteURL(), entryPath),
 			"desc": html.UnescapeString(ehtml),
 		})
 
@@ -170,7 +175,7 @@ func overwriteStaticFiles(entries *[]Entry) {
 			"date": entry.date,
 			"content": ehtml,
 		})
-		WriteToStatic(file, currentHTML)
+		WriteToStatic(entryPath, currentHTML)
 	}
 
 	indexHTML = ReadTemplateFile("index.html")

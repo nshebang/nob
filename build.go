@@ -31,7 +31,7 @@ func runBuild(params *[]string) int {
 
 	fmt.Println("Building public HTML files + RSS feed")
 	if autodelete {
-		fmt.Println("Entries without a draft will be deleted!")
+		fmt.Println("Entries without a Markdown file will be deleted!")
 	}
 	start := time.Now().UnixNano() / int64(time.Millisecond)
 

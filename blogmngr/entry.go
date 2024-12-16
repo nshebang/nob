@@ -16,6 +16,7 @@ type Entry struct {
 	dateRfc2822	string
 	contentMd	string
 	draft		bool
+	path		string
 }
 
 const mdTemplate = `---
@@ -38,6 +39,7 @@ func NewEntry(newTitle string) *Entry {
 		dateRfc2822: newRfc2822,
 		contentMd: "",
 		draft: false,
+		path: "",
 	}
 }
 
@@ -58,6 +60,7 @@ func NewEntryFromFile(fpath string) *Entry {
 		dateRfc2822: rfc2822,
 		contentMd: content,
 		draft: draft,
+		path: fpath,
 	} 
 }
 
