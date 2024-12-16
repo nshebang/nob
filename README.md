@@ -4,8 +4,8 @@ really easy to use and fast. It is intended to be used together with
 [Neocities CLI](https://neocities.org/cli).
 
 ## Installation
-Download a binary for your operating system from the
-[releases page](https://github.com/nanavortex/nob/releases/)
+Grab a binary for your operating system from the
+[releases page](https://github.com/nshebang/nob/releases/)
 and move it to a convenient directory (for example, `~/.local/bin` if you are
 using Linux)
 
@@ -20,7 +20,7 @@ Finally, just run `nob` from your terminal and that's it!
 * No theming system. You just use any CSS stylesheet you like and works.
 
 ## How to use nob
-The [wiki](https://github.com/nanavortex/nob/wiki) has more information
+The [wiki](https://github.com/nshebang/nob/wiki) has more information
 about this. Alternatively, run `nob help --more` from your terminal.
 
 ## To do

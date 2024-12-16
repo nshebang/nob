@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/nanavortex/nob/blogmngr"
+	"github.com/nshebang/nob/blogmngr"
 )
 
 var cmdCreate = &Command{

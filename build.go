@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"time"
-	"github.com/nanavortex/nob/blogmngr"
+	"github.com/nshebang/nob/blogmngr"
 )
 
 var cmdBuild = &Command{
