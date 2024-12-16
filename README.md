@@ -27,7 +27,7 @@ about this.
 
 ### Is this project still in development?
 
-As long as there is people pushing commits, it's active. As for me, the main
+As long as there are people pushing commits, it's active. As for me, the main
 maintainer (Olivia), I'm often too busy with my life and just maintain this
 whenever I can.
 
