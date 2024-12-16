@@ -19,7 +19,19 @@ func CreateDraftAndEdit(title string) bool {
 	fpath := fmt.Sprintf("nob/drafts/%s.md", toFilename(title))
 
 	if _, err := os.Stat(fpath); !os.IsNotExist(err) {
-		return false
+		i := 0
+		for {
+			ext := filepath.Ext(fpath)
+			base := fpath[:len(fpath) - len(ext)]
+			i++
+			testPath := fmt.Sprintf("%s-%d%s", base, i, ext)
+			
+			_, err := os.Stat(testPath)
+			if os.IsNotExist(err) {
+				fpath = testPath
+				break
+			}
+		}
 	}
 
 	f, _ := os.OpenFile(fpath, os.O_CREATE | os.O_WRONLY | os.O_APPEND, 0600)
@@ -27,7 +39,7 @@ func CreateDraftAndEdit(title string) bool {
 	f.Close()
 
 	if editor == "" {
-		fmt.Println("Set the environment var EDITOR to use a custom text editor")
+		fmt.Println("Set the environment var $EDITOR to use a custom text editor")
 		editor = "nano"
 	}
 	cmd := exec.Command(editor, fpath)
@@ -74,12 +86,12 @@ func autoDelete(entries *[]Entry) {
 
 func toFilename(str string) string {
 	fname := strings.ToLower(str)
-	fname = strings.Replace(fname, " ", "_", -1)
+	fname = strings.Replace(fname, " ", "-", -1)
 	fname = strings.Replace(fname, "'", "", -1)
 	fname = strings.Replace(fname, "\"", "", -1)
 	fname = strings.Replace(fname, "#", "", -1)
-	fname = strings.Replace(fname, "/", "_", -1)
-	fname = strings.Replace(fname, "\\", "", -1)
+	fname = strings.Replace(fname, "/", "-", -1)
+	fname = strings.Replace(fname, "\\", "-", -1)
 	return fname
 }
 
