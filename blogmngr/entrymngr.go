@@ -79,6 +79,7 @@ func toFilename(str string) string {
 	fname = strings.Replace(fname, "\"", "", -1)
 	fname = strings.Replace(fname, "#", "", -1)
 	fname = strings.Replace(fname, "/", "_", -1)
+	fname = strings.Replace(fname, "\\", "", -1)
 	return fname
 }
 
