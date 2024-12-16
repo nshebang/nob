@@ -4,7 +4,6 @@ import (
 	"os"
 	"os/exec"
 	"io/ioutil"
-	"runtime"
 	"fmt"
 	"sort"
 	"strings"
@@ -27,10 +26,6 @@ func CreateDraftAndEdit(title string) bool {
 	f.WriteString(entry.Draft())
 	f.Close()
 
-	if runtime.GOOS == "windows" {
-		fmt.Println("Edit the new entry using your favorite text editor.")
-		return true
-	}
 	if editor == "" {
 		fmt.Println("Set the environment var EDITOR to use a custom text editor")
 		editor = "nano"
