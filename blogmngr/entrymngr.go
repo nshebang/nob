@@ -95,20 +95,20 @@ func toFilename(str string) string {
 	return fname
 }
 
-func loadEntries(emap map[int64]Entry) {
+func loadEntries(entries map[int64]Entry) {
 	drafts, _ := ioutil.ReadDir("nob/drafts/")
 
 	for _, file := range drafts {
 		if filepath.Ext(file.Name()) != ".md" {
 			continue
 		}
-		efile := fmt.Sprintf("nob/drafts/%s", file.Name())
-		entry := NewEntryFromFile(efile)
+		entryFile := fmt.Sprintf("nob/drafts/%s", file.Name())
+		entry := NewEntryFromFile(entryFile)
 		time, _ := time.Parse(
 			"Mon, 01 Jan 2006 15:04:05 -0700",
 			entry.dateRfc2822)
 		timestamp := time.Unix()
-		emap[timestamp] = (*entry)
+		entries[timestamp] = (*entry)
 	}
 }
 
@@ -124,16 +124,16 @@ func loadHTMLEntries(entries *[]string) {
 	}
 }
 
-func sortEntries(emap map[int64]Entry, entries *[]Entry) {
-	times := make([]int64, 0)
-	for k := range emap {
-		times = append(times, k)
+func sortEntries(entryTimestamps map[int64]Entry, entries *[]Entry) {
+	timestamps := make([]int64, 0, len(entryTimestamps))
+	for k := range entryTimestamps {
+		timestamps = append(timestamps, k)
 	}
 	
-	sort.Slice(times, func(i, j int) bool { return times[i] < times[j]})
+	sort.Slice(timestamps, func(i, j int) bool { return timestamps[i] < timestamps[j]})
 	
-	for i := len(times) - 1; i >= 0; i-- {
-		(*entries) = append((*entries), emap[times[i]])
+	for i := len(timestamps) - 1; i >= 0; i-- {
+		(*entries) = append((*entries), entryTimestamps[timestamps[i]])
 	}
 }
 
