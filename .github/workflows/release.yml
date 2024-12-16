@@ -1,0 +1,59 @@
+name: Create release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions: write-all
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.23'
+
+      - name: Install dependencies
+        run: |
+          go mod tidy
+          go mod vendor
+
+      - name: Create directories
+        run: |
+          mkdir -p release/nob-linux
+          mkdir -p release/nob-windows
+          mkdir -p release/nob-macos
+
+      - name: Build neosaki binary
+        run: |
+          GOOS=linux GOARCH=amd64 go build
+          mv nob release/nob-linux
+          GOOS=windows GOARCH=amd64 go build
+          mv nob.exe release/nob-windows
+          GOOS=darwin GOARCH=amd64 go build
+          mv nob release/nob-macos
+
+      - name: Create zipped release package
+        run: |
+          zip -r release/nob-linux.zip release/nob-linux/nob
+          zip -r release/nob-windows.zip release/nob-windows/nob.exe
+          zip -r release/nob-macos.zip release/nob-macos/nob
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            release/nob-linux.zip
+            release/nob-windows.zip
+            release/nob-macos.zip
+          tag_name: ${{ github.ref_name }}
+          prerelease: false 
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
