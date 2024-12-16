@@ -57,7 +57,7 @@ blog entries. Remember to add the `.nob/` directory of your blog to a
 drafts and HTML templates. You shouldn't upload any files in `.nob/` if you
 actually want your Markdown drafts to remain private.
 
-## This generator is missing a feature that Hugo has!
+### This generator is missing a feature that Hugo already has!
 
 Hugo is a more complex program that manages web content in general, not just
 blogs. The goal of nob is not trying to be another Hugo.
@@ -68,7 +68,7 @@ Of course some features are missing, but some are not really necessary
 (such as weird yaml config files). However, if you think nob is missing an 
 _essential_ feature, you can always [open a PR](https://github.com/nshebang/nob/pulls).
 
-## I need a tagging system!
+### I need a tagging system!
 
 Soon.
 
