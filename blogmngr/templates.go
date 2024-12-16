@@ -69,7 +69,7 @@ const RssArticle = `  <item>
 const EntryLi = `<li><a href="%s">%s</a> <small>%s</small>
 `
 
-func CreateTemplates(templatesdir string) {
+func CreateTemplates(templatesdir string, siteUrl string) {
 	indexFile := fmt.Sprintf("%s/index.html", templatesdir)
 	postFile := fmt.Sprintf("%s/post.html", templatesdir)
 	rssFile := fmt.Sprintf("%s/rss.xml", templatesdir)
@@ -85,9 +85,9 @@ func CreateTemplates(templatesdir string) {
 		f.WriteString(content)
 		f.Close()
 	}
-	// TODO refactor this
+
 	f, _ := os.OpenFile(linkFile, os.O_CREATE | os.O_WRONLY | os.O_TRUNC, 0600)
-	f.WriteString("https://my-website.neocities.org/blog")
+	f.WriteString(siteUrl)
 	f.Close()
 }
 

@@ -7,7 +7,7 @@ import (
 
 var cmdCreate = &Command{
 	Run: runCreate,
-	Usage: "create <blog_directory_name>",
+	Usage: "create <blog_directory_name> [--url <site_url> | -u <site_url>]",
 	Desc: "Create a new blog",
 }
 
@@ -30,14 +30,25 @@ echo "%s/nob/" >> .gitignore
 func runCreate(params *[]string) int {
 	if len(*params) == 0 {
 		fmt.Println("Error: Missing blog directory name")
-		fmt.Println("Usage: nob create <dirname>")
+		fmt.Println("Usage: nob create <dirname> [-u <site_url>]")
 		return 1
 	}
 
 	dirname := (*params)[0]
+	siteUrl := fmt.Sprintf("https://my-website.neocities.org/%s", dirname)
 	fmt.Printf("Creating blog in '%s'\n", dirname)
 	
-	success := blogmngr.CreateBlog(dirname)
+	if len(*params) == 3 {
+		if (*params)[1] != "--url" && (*params)[1] != "-u" {
+			fmt.Printf("Invalid flag %s\n", (*params)[1])
+			return 1
+		}
+
+		siteUrl = (*params)[2]
+		fmt.Printf("Blog URL is %s\n", siteUrl)
+	}
+
+	success := blogmngr.CreateBlog(dirname, siteUrl)
 	if !success {
 		fmt.Printf("The directory '%s' already exists\n", dirname)
 		return 1

@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func CreateBlog(dirname string) bool {
+func CreateBlog(dirname string, siteUrl string) bool {
 	cwd, _ := os.Getwd()
 	blogdir := fmt.Sprintf("%s/%s", cwd, dirname)
 	nobdir := fmt.Sprintf("%s/nob", blogdir)
@@ -20,7 +20,7 @@ func CreateBlog(dirname string) bool {
 		path := fmt.Sprintf("%s/%s", nobdir, dir)
 		os.Mkdir(path, 0700)
 		if dir == "templates" {
-			CreateTemplates(path)
+			CreateTemplates(path, siteUrl)
 		}
 	}
 	return true
