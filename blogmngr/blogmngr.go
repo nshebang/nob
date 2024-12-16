@@ -8,8 +8,8 @@ import (
 func CreateBlog(dirname string, siteUrl string) bool {
 	cwd, _ := os.Getwd()
 	blogdir := fmt.Sprintf("%s/%s", cwd, dirname)
-	nobdir := fmt.Sprintf("%s/nob", blogdir)
-	dirs := [2]string{"drafts", "templates"}
+	nobdir := fmt.Sprintf("%s/.nob", blogdir)
+	dirs := [2]string{"entries", "templates"}
 
 	if _, err := os.Stat(blogdir); !os.IsNotExist(err) {
 		return false
@@ -28,7 +28,7 @@ func CreateBlog(dirname string, siteUrl string) bool {
 
 func IsBlog() bool {
 	cwd, _ := os.Getwd()
-	nobdir := fmt.Sprintf("%s/nob", cwd)
+	nobdir := fmt.Sprintf("%s/.nob", cwd)
 
 	fi, err := os.Stat(nobdir)
 	return !os.IsNotExist(err) && fi.IsDir()

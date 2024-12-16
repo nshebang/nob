@@ -16,7 +16,7 @@ func CreateDraftAndEdit(title string) bool {
 	editor := os.Getenv("EDITOR")
 	entry := NewEntry(title)
 
-	fpath := fmt.Sprintf("nob/drafts/%s.md", toFilename(title))
+	fpath := fmt.Sprintf(".nob/entries/%s.md", toFilename(title))
 
 	if _, err := os.Stat(fpath); !os.IsNotExist(err) {
 		i := 0
@@ -35,7 +35,7 @@ func CreateDraftAndEdit(title string) bool {
 	}
 
 	f, _ := os.OpenFile(fpath, os.O_CREATE | os.O_WRONLY | os.O_APPEND, 0600)
-	f.WriteString(entry.Draft())
+	f.WriteString(entry.Markdown())
 	f.Close()
 
 	if editor == "" {
@@ -96,14 +96,19 @@ func toFilename(str string) string {
 }
 
 func loadEntries(entries map[int64]Entry) {
-	drafts, _ := ioutil.ReadDir("nob/drafts/")
+	entryList, _ := ioutil.ReadDir(".nob/entries/")
 
-	for _, file := range drafts {
+	for _, file := range entryList {
 		if filepath.Ext(file.Name()) != ".md" {
 			continue
 		}
-		entryFile := fmt.Sprintf("nob/drafts/%s", file.Name())
+		entryFile := fmt.Sprintf(".nob/entries/%s", file.Name())
 		entry := NewEntryFromFile(entryFile)
+		
+		if entry.Draft() {
+			continue
+		}
+
 		time, _ := time.Parse(
 			"Mon, 01 Jan 2006 15:04:05 -0700",
 			entry.dateRfc2822)

@@ -94,14 +94,14 @@ func CreateTemplates(templatesdir string, siteUrl string) {
 // TODO refactor this
 func GetWebsiteURL() string {
 	cwd, _ := os.Getwd()
-	linkPath := fmt.Sprintf("%s/nob/templates/my_blog_link.txt", cwd)
+	linkPath := fmt.Sprintf("%s/.nob/templates/my_blog_link.txt", cwd)
 	f, _ := ioutil.ReadFile(linkPath)
 	return strings.Replace(string(f), "\n", "", -1)
 }
 
 func ReadTemplateFile(fname string) string {
 	cwd, _ := os.Getwd()
-	templatePath := fmt.Sprintf("%s/nob/templates/%s", cwd, fname)
+	templatePath := fmt.Sprintf("%s/.nob/templates/%s", cwd, fname)
 	f, _ := ioutil.ReadFile(templatePath)
 	return string(f)
 }

@@ -17,13 +17,13 @@ func init() {
 
 var gitignoreText = `---
 NEOCITIES CLI USERS:
-It is recommended to add the nob/ directory of your blog to a
+It is recommended to add the .nob/ directory of your blog to a
 .gitignore file in your blog root directory. This will prevent
 Neocities CLI from uploading Markdown drafts and HTML templates.
 
-Run the following command to add nob/ to .gitignore:
+Run the following command to add .nob/ to .gitignore:
 
-echo "%s/nob/" >> .gitignore
+echo "%s/.nob/" >> .gitignore
 ---
 `
 
