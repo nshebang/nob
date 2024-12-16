@@ -21,7 +21,7 @@ Finally, just run `nob` from your terminal and that's it!
 
 ## How to use nob
 The [wiki](https://github.com/nshebang/nob/wiki) has more information
-about this. Alternatively, run `nob help --more` from your terminal.
+about this. 
 
 ## Q&A 
 
