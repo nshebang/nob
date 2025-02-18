@@ -17,6 +17,8 @@ type Entry struct {
 	contentMd	string
 	draft		bool
 	path		string
+	tags		string
+	tagsPrettyHTML	string
 }
 
 const mdTemplate = `---
@@ -27,6 +29,7 @@ DRAFT: false
 ---
 %s
 `
+const tagHTMLTemplate = `<span class="nob-tag">#%s</span>`
 
 func NewEntry(newTitle string) *Entry {
 	now := time.Now().UTC()
@@ -40,6 +43,8 @@ func NewEntry(newTitle string) *Entry {
 		contentMd: "",
 		draft: false,
 		path: "",
+		tags: "",
+		tagsPrettyHTML: "",
 	}
 }
 
@@ -47,8 +52,17 @@ func NewEntryFromFile(fpath string) *Entry {
 	f, _ := ioutil.ReadFile(fpath)
 	raw := string(f)
 
-	title, date, rfc2822, draft := parseTitleBlock(raw)
+	title, date, rfc2822, draft, tags := parseTitleBlock(raw)
 	
+	tagList := strings.Split(tags, ",")
+	var result []string
+	for _, tag := range tagList {
+		if tag != "" {
+			result = append(result, fmt.Sprintf(tagHTMLTemplate, tag))
+		}
+	}
+	tagsPrettyHTML := strings.Join(result, " ")
+
 	mdStart := strings.Index(raw, "---\n")
 	mdEnd := strings.Index(raw[mdStart + 4:], "---\n")
 
@@ -61,6 +75,8 @@ func NewEntryFromFile(fpath string) *Entry {
 		contentMd: content,
 		draft: draft,
 		path: fpath,
+		tags: tags,
+		tagsPrettyHTML: tagsPrettyHTML,
 	} 
 }
 
@@ -80,11 +96,12 @@ func (e *Entry) ToHTML() string {
 	return string(markdown.ToHTML([]byte(post), mdparser, nil))
 }
 
-func parseTitleBlock(raw string) (string, string, string, bool) {
+func parseTitleBlock(raw string) (string, string, string, bool, string) {
 	var title string
 	var date string
 	var rfc2822 string
 	draft := false
+	var tags string
 
 	scanner := bufio.NewScanner(strings.NewReader(raw))
 	scanner.Split(bufio.ScanLines)
@@ -94,7 +111,7 @@ func parseTitleBlock(raw string) (string, string, string, bool) {
 		line := scanner.Text()
 		first := strings.Index(line, ": ")
 
-		if l > 5 {
+		if l > 6 {
 			break
 		}
 		if strings.Count(line, "TITLE: ") > 0 {
@@ -112,8 +129,17 @@ func parseTitleBlock(raw string) (string, string, string, bool) {
 				draft = true
 			}
 		}
+		if strings.Count(line, "TAGS: ") > 0 {
+			tags = line[first + 2:]
+			tags = strings.Replace(tags, " ", "", -1)
+			tags = strings.Replace(tags, "#", "", -1)
+			tags = strings.Replace(tags, "<", "", -1)
+			tags = strings.Replace(tags, ">", "", -1)
+			tags = strings.Replace(tags, "\"", "", -1)
+			tags = strings.Replace(tags, "'", "", -1)
+		}
 		l++
 	}
-	return title, date, rfc2822, draft
+	return title, date, rfc2822, draft, tags
 }
 

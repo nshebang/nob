@@ -160,7 +160,13 @@ func overwriteStaticFiles(entries *[]Entry) {
 		
 		ehtml := entry.ToHTML()
 
-		entriesHTML += fmt.Sprintf(EntryLi, entryPath, entry.title, entry.date)	
+		entriesHTML += fmt.Sprintf(
+			EntryLi,
+			entry.tags,
+			entryPath,
+			entry.title,
+			entry.date,
+		)	
 		entriesHTML += "    "
 
 		entriesXML += FmtTemplate(RssArticle, P{
@@ -174,6 +180,7 @@ func overwriteStaticFiles(entries *[]Entry) {
 			"title": entry.title,
 			"date": entry.date,
 			"content": ehtml,
+			"tags": entry.tagsPrettyHTML,
 		})
 		WriteToStatic(entryPath, currentHTML)
 	}

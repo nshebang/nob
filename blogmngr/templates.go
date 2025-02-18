@@ -14,7 +14,7 @@ type P map[string]interface{}
 const indexTemplate = `<!doctype html>
 <html>
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8"/>
   <title>Blog</title>
 </head>
 <body>
@@ -32,7 +32,7 @@ const indexTemplate = `<!doctype html>
 const postTemplate = `<!doctype html>
 <html>
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8"/>
   <title>{{.title}}</title>
 </head>
 <body>
@@ -66,7 +66,7 @@ const RssArticle = `  <item>
   </item>
 `
 
-const EntryLi = `<li><a href="%s">%s</a> <small>%s</small>
+const EntryLi = `<li data-tags="%s"><a href="%s">%s</a> <small>%s</small></li>
 `
 
 func CreateTemplates(templatesdir string, siteUrl string) {
